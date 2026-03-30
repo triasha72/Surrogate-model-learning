@@ -12,7 +12,8 @@ Learning surrogate modeling and design of experiments for engineering simulation
 Python, NumPy, Scikit-learn
 
 ## Example Results
-(Add plots here later)
+<img width="1769" height="489" alt="image" src="https://github.com/user-attachments/assets/3c1396bb-4285-49d4-b36f-11644ac3dcbd" />
+
 
 # Surrogate Modeling Learning
 
