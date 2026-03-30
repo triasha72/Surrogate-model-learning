@@ -31,7 +31,7 @@ The most interesting part wasn't the accuracy number — it
 was the uncertainty map. The GP correctly identified the 
 corners of the design space as its weakest predictions, 
 exactly where there was no training data. That's the GP 
-telling you where to run your next simulation.
+telling where to run the next simulation.
 
 ![GP Surrogate Results](results/gp_branin_result.png)
 
@@ -51,7 +51,7 @@ average error. Not good enough. The error plot showed the
 surrogate was struggling hardest at small deflection values 
 — a classic sign of sparse coverage in a 4D space.
 
-Two fixes: bumped samples to 80, and log-transformed the 
+Two fixes: increased number of samples to 80, and log-transformed the 
 inputs that span orders of magnitude (E and I). That second 
 fix turned out to matter more than the first.
 
