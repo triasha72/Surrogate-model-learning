@@ -25,7 +25,7 @@ points using Latin Hypercube Sampling, trained a Gaussian
 Process on those results, and asked it to predict everywhere 
 else.
 
-**Result: R² = 0.91 from 20 training points**
+**Result: R² = 0.9553 from 20 training points**
 
 The most interesting part wasn't the accuracy number — it 
 was the uncertainty map. The GP correctly identified the 
