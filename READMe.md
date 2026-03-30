@@ -5,7 +5,7 @@ the basics and working toward real engineering applications.
 
 The idea behind all of this: engineering simulations are 
 expensive. A single CFD run can take hours. Surrogate models 
-let you run a handful of those simulations, fit a cheap 
+lets us run a handful of those simulations, fit a cheap 
 mathematical approximation, and then use that approximation 
 for everything else — optimization, uncertainty analysis, 
 design exploration. This repo is me figuring out how to 
