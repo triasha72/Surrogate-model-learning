@@ -70,15 +70,13 @@ the data was fed to it.
 Python · NumPy · scikit-learn · pyDOE2 · Matplotlib · Jupyter
 
 ## How to run
-```bash
-pip install -r requirements.txt
-jupyter notebook
-```
+1. Create env and install deps
+   pip install -r requirements.txt
+2. Launch notebooks
+   jupyter notebook
 
-## What's coming next
-
-- Project 3: comparing surrogate methods side by side 
-  (Response Surface vs GP vs RBF)
-- Project 4: surrogate-based airfoil optimization
-- Project 5: active learning — letting the GP decide 
-  where to sample next
+## Notebooks
+- 01_doe_basics.ipynb
+- 02_response_surface_model.ipynb
+- 03_gaussian_process_surrogate.ipynb
+- 04_validation_diagnostics.ipynb
