@@ -1,4 +1,4 @@
-# Project 3 — Surrogate Method Comparison
+# Project 3 - Surrogate Method Comparison
 
 ## What this project is about
 
