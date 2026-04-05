@@ -34,7 +34,7 @@ telling you where to run your next simulation.
 
 ![GP Surrogate Results](results/gp_branin_result.png)
 
-### Project 2 — Cantilever Beam Deflection Surrogate
+### Project 2 : Cantilever Beam Deflection Surrogate
 `notebooks/02_beam_deflection_surrogate.ipynb`  
 [`notebooks/README_project2.md`](notebooks/README_project2.md)
 
@@ -61,7 +61,7 @@ the data was fed to it.
 
 ![Beam Deflection Results](results/beam_deflection_30samples.png)
 
-### Project 3 — Surrogate Method Comparison
+### Project 3 : Surrogate Method Comparison
 `notebooks/03_surrogate_comparison.ipynb`  
 [`notebooks/README_project3.md`](notebooks/README_project3.md)
 
