@@ -7,19 +7,19 @@ The idea behind all of this: engineering simulations are
 expensive. A single CFD run can take hours. Surrogate models 
 let you run a handful of those simulations, fit a cheap 
 mathematical approximation, and then use that approximation 
-for everything else — optimization, uncertainty analysis, 
+for everything else like optimization, uncertainty analysis, 
 design exploration. This repo is me figuring out how to 
 build those approximations properly.
 
 ## What's in here
 
-### Project 1 — GP Surrogate for the Branin Function
+### Project 1 : GP Surrogate for the Branin Function
 `notebooks/01_gp_surrogate_branin.ipynb`  
 [`notebooks/README_project1.md`](notebooks/README_project1.md)
 
 The Branin function is a standard 2D benchmark that looks 
 like a hilly landscape. I used it as a stand-in for an 
-expensive simulation — sampled it at 20 carefully chosen 
+expensive simulation, sampled it at 20 carefully chosen 
 points using Latin Hypercube Sampling, trained a Gaussian 
 Process on those results, and asked it to predict everywhere 
 else.
@@ -47,7 +47,7 @@ and built a GP surrogate to replace it.
 First attempt with 30 samples gave R² = 0.64 and 19% 
 average error. Not good enough. The error plot showed the 
 surrogate was struggling hardest at small deflection values 
-— a classic sign of sparse coverage in a 4D space.
+which is a classic sign of sparse coverage in a 4D space.
 
 Two fixes: bumped samples to 80, and log-transformed the 
 inputs that span orders of magnitude (E and I). That second 
@@ -56,7 +56,7 @@ fix turned out to matter more than the first.
 **Result: R² = 1.0 | MAPE = 0.26% from 80 training points**
 
 The lesson here was that feature engineering matters more 
-than model choice. The GP didn't change at all — just how 
+than model choice. The GP didn't change at all, it is just how 
 the data was fed to it.
 
 ![Beam Deflection Results](results/beam_deflection_30samples.png)
@@ -66,7 +66,7 @@ the data was fed to it.
 [`notebooks/README_project3.md`](notebooks/README_project3.md)
 
 Same dataset, three different surrogate methods head to 
-head on the Rosenbrock function — a nonlinear benchmark 
+head on the Rosenbrock function which is a nonlinear benchmark 
 with a curved valley that's easy to find but hard to follow.
 
 | Method | R² | MAPE | Train Time |
@@ -75,14 +75,14 @@ with a curved valley that's easy to find but hard to follow.
 | GP | 1.000 | 0.55% | 0.146s |
 | RBF | 0.895 | 187% | 0.002s |
 
-RSM failed completely — a degree-2 polynomial can't 
+RSM failed completely as a degree-2 polynomial can't 
 represent a curved valley. RBF got the shape roughly right 
-but struggled at the edges. GP nailed it.
+but struggled at the edges. GP has the perfect value, which means we need to add some noise to it.
 
 The takeaway: for nonlinear problems with limited data, 
 GP is worth the extra training time. RSM only makes sense 
 when you have strong reason to believe the response is 
-nearly quadratic. RBF sits in the middle — fast and decent, 
+nearly quadratic. RBF sits in the middle that is, fast and decent, 
 but no uncertainty estimates.
 
 ![Surrogate Comparison](results/surrogate_comparison_clean.png)
@@ -90,7 +90,7 @@ but no uncertainty estimates.
 ## What's coming next
 
 - Project 4: surrogate-based airfoil optimization
-- Project 5: active learning — letting the GP decide
+- Project 5: active learning : letting the GP decide
   where to sample next
 
 ## Tools
