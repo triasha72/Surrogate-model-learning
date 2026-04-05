@@ -26,7 +26,7 @@ else.
 
 **Result: R² = 0.9553 from 20 training points**
 
-The most interesting part wasn't the accuracy number — it 
+The most interesting part wasn't the accuracy number, it 
 was the uncertainty map. The GP correctly identified the 
 corners of the design space as its weakest predictions, 
 exactly where there was no training data. That's the GP 
