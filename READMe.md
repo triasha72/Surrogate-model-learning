@@ -1,72 +1,74 @@
 # Surrogate Model Learning
 
-Learning surrogate modeling from scratch — starting with 
+Learning surrogate modeling from scratch — starting with
 the basics and working toward real engineering applications.
 
-The idea behind all of this: engineering simulations are 
-expensive. A single CFD run can take hours. Surrogate models 
-let you run a handful of those simulations, fit a cheap 
-mathematical approximation, and then use that approximation 
-for everything else like optimization, uncertainty analysis, 
-design exploration. This repo is me figuring out how to 
-build those approximations properly.
+The idea behind all of this: engineering and environmental
+simulations are expensive. A single CFD run or 3D hydrodynamic
+flood scenario can take hours to days at operational scale.
+Surrogate models let you run a carefully chosen set of those
+simulations, fit a cheap mathematical approximation, and then
+use that approximation for everything else — optimization,
+uncertainty analysis, large-scale scenario exploration. This
+repo is me figuring out how to build those approximations
+properly.
 
 ## What's in here
 
 ### Project 1 : GP Surrogate for the Branin Function
-`notebooks/01_gp_surrogate_branin.ipynb`  
+`notebooks/01_gp_surrogate_branin.ipynb`
 [`notebooks/README_project1.md`](notebooks/README_project1.md)
 
-The Branin function is a standard 2D benchmark that looks 
-like a hilly landscape. I used it as a stand-in for an 
-expensive simulation, sampled it at 20 carefully chosen 
-points using Latin Hypercube Sampling, trained a Gaussian 
-Process on those results, and asked it to predict everywhere 
+The Branin function is a standard 2D benchmark that looks
+like a hilly landscape. I used it as a stand-in for an
+expensive simulation, sampled it at 20 carefully chosen
+points using Latin Hypercube Sampling, trained a Gaussian
+Process on those results, and asked it to predict everywhere
 else.
 
 **Result: R² = 0.9553 from 20 training points**
 
-The most interesting part wasn't the accuracy number, it 
-was the uncertainty map. The GP correctly identified the 
-corners of the design space as its weakest predictions, 
-exactly where there was no training data. That's the GP 
+The most interesting part wasn't the accuracy number, it
+was the uncertainty map. The GP correctly identified the
+corners of the design space as its weakest predictions,
+exactly where there was no training data. That's the GP
 telling you where to run your next simulation.
 
 ![GP Surrogate Results](results/gp_branin_result.png)
 
 ### Project 2 : Cantilever Beam Deflection Surrogate
-`notebooks/02_beam_deflection_surrogate.ipynb`  
+`notebooks/02_beam_deflection_surrogate.ipynb`
 [`notebooks/README_project2.md`](notebooks/README_project2.md)
 
-First real engineering application. A cantilever beam's 
-tip deflection depends on four variables: applied force, 
-beam length, Young's modulus, and second moment of area. 
-I treated the analytical formula as an expensive FEA solver 
+First real engineering application. A cantilever beam's
+tip deflection depends on four variables: applied force,
+beam length, Young's modulus, and second moment of area.
+I treated the analytical formula as an expensive FEA solver
 and built a GP surrogate to replace it.
 
-First attempt with 30 samples gave R² = 0.64 and 19% 
-average error. Not good enough. The error plot showed the 
-surrogate was struggling hardest at small deflection values 
+First attempt with 30 samples gave R² = 0.64 and 19%
+average error. Not good enough. The error plot showed the
+surrogate was struggling hardest at small deflection values
 which is a classic sign of sparse coverage in a 4D space.
 
-Two fixes: bumped samples to 80, and log-transformed the 
-inputs that span orders of magnitude (E and I). That second 
+Two fixes: bumped samples to 80, and log-transformed the
+inputs that span orders of magnitude (E and I). That second
 fix turned out to matter more than the first.
 
 **Result: R² = 1.0 | MAPE = 0.26% from 80 training points**
 
-The lesson here was that feature engineering matters more 
-than model choice. The GP didn't change at all, it is just how 
+The lesson here was that feature engineering matters more
+than model choice. The GP didn't change at all, it is just how
 the data was fed to it.
 
 ![Beam Deflection Results](results/beam_deflection_30samples.png)
 
 ### Project 3 : Surrogate Method Comparison
-`notebooks/03_surrogate_comparison.ipynb`  
+`notebooks/03_surrogate_comparison.ipynb`
 [`notebooks/README_project3.md`](notebooks/README_project3.md)
 
-Same dataset, three different surrogate methods head to 
-head on the Rosenbrock function which is a nonlinear benchmark 
+Same dataset, three different surrogate methods head to
+head on the Rosenbrock function which is a nonlinear benchmark
 with a curved valley that's easy to find but hard to follow.
 
 | Method | R² | MAPE | Train Time |
@@ -75,23 +77,35 @@ with a curved valley that's easy to find but hard to follow.
 | GP | 1.000 | 0.55% | 0.146s |
 | RBF | 0.895 | 187% | 0.002s |
 
-RSM failed completely as a degree-2 polynomial can't 
-represent a curved valley. RBF got the shape roughly right 
+RSM failed completely as a degree-2 polynomial can't
+represent a curved valley. RBF got the shape roughly right
 but struggled at the edges. GP has the perfect value, which means we need to add some noise to it.
 
-The takeaway: for nonlinear problems with limited data, 
-GP is worth the extra training time. RSM only makes sense 
-when you have strong reason to believe the response is 
-nearly quadratic. RBF sits in the middle that is, fast and decent, 
+The takeaway: for nonlinear problems with limited data,
+GP is worth the extra training time. RSM only makes sense
+when you have strong reason to believe the response is
+nearly quadratic. RBF sits in the middle that is, fast and decent,
 but no uncertainty estimates.
+
+The practical implication: for high-stakes scenario analysis —
+flood inundation mapping, climate risk propagation, any setting
+where each simulation run is expensive and data is limited —
+GP's built-in uncertainty estimates make it the right default.
 
 ![Surrogate Comparison](results/surrogate_comparison_clean.png)
 
-## What's coming next
+## Where this is heading
 
-- Project 4: surrogate-based airfoil optimization
-- Project 5: active learning : letting the GP decide
-  where to sample next
+The methods developed here — GP surrogates, multifidelity
+approximation, uncertainty-aware sampling — are foundational
+to a larger question: can neural operator learning (DeepONet)
+generalize these ideas to PDE-governed field problems, where
+the goal is to learn the solution operator itself rather than
+a single scalar response? That work lives in a separate
+repository: [NURBS_BEM_EMSolver](https://github.com/triasha72/NURBS_BEM_EMSolver),
+where I built a mesh-free electromagnetic field solver from
+scratch and trained a DeepONet on 500+ parametric geometries
+to learn the input-to-field operator directly from data.
 
 ## Tools
 
@@ -109,4 +123,4 @@ jupyter notebook
 |----------|-------|------------|
 | `01_gp_surrogate_branin.ipynb` | GP surrogate, 2D benchmark | R² = 0.9553 |
 | `02_beam_deflection_surrogate.ipynb` | Beam deflection, 4D engineering problem | R² = 1.0 |
-| `03_surrogate_comparison.ipynb` | RSM vs GP vs RBF comparison | GP wins |
+| `03_surrogate_comparison.ipynb` | RSM vs GP vs RBF comparison | GP wins | comparison | GP wins |
