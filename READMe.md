@@ -94,17 +94,15 @@ GP's built-in uncertainty estimates make it the right default.
 
 ![Surrogate Comparison](results/surrogate_comparison_clean.png)
 
-## Where this is heading
+## What the comparison established
 
-The next step is to make the comparisons more realistic without
-leaving the scope of this repository. I plan to add noisy training
-data, repeated train/test splits, calibration checks for GP
-uncertainty, and an adaptive-sampling experiment that uses model
-uncertainty to choose the next simulation point.
-
-That work will show when the strong benchmark results remain useful
-under limited and imperfect engineering data, and when a simpler
-surrogate is the better trade-off.
+Together, the studies show why surrogate choice depends on the problem rather
+than a single leaderboard. Gaussian processes were useful when smooth
+interpolation and uncertainty mattered, polynomial models provided an
+interpretable engineering approximation for beam deflection, and the comparison
+notebook exposed how model complexity changed error and fitting cost under the
+same data split. The reported results apply to these controlled datasets and do
+not establish robustness to noisy, sparse, or extrapolative inputs.
 
 ## Tools
 
