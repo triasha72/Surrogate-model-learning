@@ -96,16 +96,15 @@ GP's built-in uncertainty estimates make it the right default.
 
 ## Where this is heading
 
-The methods developed here — GP surrogates, multifidelity
-approximation, uncertainty-aware sampling — are foundational
-to a larger question: can neural operator learning (DeepONet)
-generalize these ideas to PDE-governed field problems, where
-the goal is to learn the solution operator itself rather than
-a single scalar response? That work lives in a separate
-repository: [NURBS_BEM_EMSolver](https://github.com/triasha72/NURBS_BEM_EMSolver),
-where I built a mesh-free electromagnetic field solver from
-scratch and trained a DeepONet on 500+ parametric geometries
-to learn the input-to-field operator directly from data.
+The next step is to make the comparisons more realistic without
+leaving the scope of this repository. I plan to add noisy training
+data, repeated train/test splits, calibration checks for GP
+uncertainty, and an adaptive-sampling experiment that uses model
+uncertainty to choose the next simulation point.
+
+That work will show when the strong benchmark results remain useful
+under limited and imperfect engineering data, and when a simpler
+surrogate is the better trade-off.
 
 ## Tools
 
@@ -123,4 +122,4 @@ jupyter notebook
 |----------|-------|------------|
 | `01_gp_surrogate_branin.ipynb` | GP surrogate, 2D benchmark | R² = 0.9553 |
 | `02_beam_deflection_surrogate.ipynb` | Beam deflection, 4D engineering problem | R² = 1.0 |
-| `03_surrogate_comparison.ipynb` | RSM vs GP vs RBF comparison | GP wins | comparison | GP wins |
+| `03_surrogate_comparison.ipynb` | RSM vs GP vs RBF comparison | GP wins under the current benchmark |
