@@ -1,5 +1,7 @@
 # Surrogate Model Learning
 
+[![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
+
 Learning surrogate modeling from scratch — starting with
 the basics and working toward real engineering applications.
 
@@ -113,6 +115,10 @@ Python · NumPy · scikit-learn · pyDOE2 · SciPy · Matplotlib · Jupyter
 pip install -r requirements.txt
 jupyter notebook
 ```
+
+Every notebook is also executed from a clean kernel in GitHub Actions. This
+checks that the committed studies can be reproduced with the pinned dependency
+versions instead of relying on variables left in an interactive session.
 
 ## Notebooks
 
