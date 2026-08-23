@@ -1,0 +1,33 @@
+name: Reproduce notebooks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Execute every study from a clean kernel
+        env:
+          MPLBACKEND: Agg
+        run: |
+          mkdir -p /tmp/executed-notebooks
+          for notebook in notebooks/*.ipynb; do
+            jupyter nbconvert \
+              --to notebook \
+              --execute "$notebook" \
+              --output-dir /tmp/executed-notebooks \
+              --ExecutePreprocessor.timeout=300
+          done
