@@ -1,5 +1,7 @@
 # Surrogate Model Learning
 
+[Portfolio](https://triasha72.github.io/Portfolio/)
+
 [![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
 
 Learning surrogate modeling from scratch — starting with
