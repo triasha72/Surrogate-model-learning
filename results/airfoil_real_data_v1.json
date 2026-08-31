@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "dataset": "UCI Airfoil Self-Noise",
+  "dataset_doi": "10.24432/C5VW2C",
+  "dataset_license": "CC BY 4.0",
+  "source_sha256": "0beffa51c5b1493960d046c7d512a67d06a7884df6db599408087ee2fc2fc18a",
+  "seed": 42,
+  "split_policy": "grouped by angle of attack, chord length, and free-stream velocity",
+  "rows": {
+    "train": 1068,
+    "validation": 218,
+    "test": 217
+  },
+  "models": {
+    "polynomial_ridge": {
+      "validation": {
+        "r2": 0.5761309545213362,
+        "rmse_db": 4.8465920098095605,
+        "mae_db": 3.6311739755141437
+      },
+      "fit_seconds": 0.007413749999614083
+    },
+    "gaussian_process": {
+      "validation": {
+        "r2": 0.8703549562159145,
+        "rmse_db": 2.6803935884498564,
+        "mae_db": 1.8312857806905407
+      },
+      "fit_seconds": 1.8873051249993296,
+      "test": {
+        "r2": 0.8145321998857357,
+        "rmse_db": 2.811497280880818,
+        "mae_db": 1.9078850101325582
+      }
+    },
+    "rbf": {
+      "validation": {
+        "r2": 0.7687221104298279,
+        "rmse_db": 3.5800382676292823,
+        "mae_db": 2.667247855081237
+      },
+      "fit_seconds": 0.040226707998954225
+    }
+  },
+  "selected_on_validation": "gaussian_process",
+  "contains_synthetic_data": false
+}

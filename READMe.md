@@ -7,6 +7,31 @@
 Learning surrogate modeling from scratch — starting with
 the basics and working toward real engineering applications.
 
+## Real measured-data benchmark
+
+The primary evidence track now uses the UCI Airfoil Self-Noise dataset: 1,503
+measurements from aerodynamic and acoustic wind-tunnel experiments (CC BY 4.0,
+DOI `10.24432/C5VW2C`). Polynomial ridge, Gaussian-process, and radial-basis
+surrogates are selected on validation data and evaluated once on held-out test
+data. Splits are grouped by angle of attack, chord length, and free-stream
+velocity so one experimental condition cannot leak across partitions.
+
+The Branin, Rosenbrock, and analytical beam notebooks remain teaching
+demonstrations; their metrics are not presented as real-world model evidence.
+
+```bash
+python scripts/train_airfoil_real_data.py \
+  --data data/external/airfoil_self_noise.csv
+```
+
+The text-free, checksummed result is committed at
+`results/airfoil_real_data_v1.json`.
+
+The Gaussian process was selected on validation data (`R² = 0.8704`) and
+achieved held-out test `R² = 0.8145`, RMSE `2.8115 dB`, and MAE `1.9079 dB` on
+217 measurements. These results are materially lower than the near-perfect
+analytic-function scores and are the repository's more credible evidence.
+
 The idea behind all of this: engineering and environmental
 simulations are expensive. A single CFD run or 3D hydrodynamic
 flood scenario can take hours to days at operational scale.
