@@ -1,0 +1,28 @@
+name: Surrogate experiment proposal
+description: Plan a measured-data, uncertainty, or extrapolation study.
+title: "experiment: "
+labels: ["experiment"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Engineering question
+    validations: {required: true}
+  - type: textarea
+    id: data
+    attributes:
+      label: Public dataset and grouped split
+      description: Include source, license, physical grouping, and protected holdout.
+    validations: {required: true}
+  - type: textarea
+    id: measures
+    attributes:
+      label: Accuracy and reliability measures
+      description: Include point error, seed variation, coverage, interval width, and domain flags as appropriate.
+    validations: {required: true}
+  - type: textarea
+    id: selection
+    attributes:
+      label: Selection and stop rule
+      description: State what may be tuned and which data must remain untouched.
+    validations: {required: true}
