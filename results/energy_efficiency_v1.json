@@ -17,25 +17,25 @@
       "validation": {
         "heating_load": {
           "r2": 0.9958403687746591,
-          "rmse": 0.6678407120566563,
-          "mae": 0.4035698036721871
+          "rmse": 0.6678407120566561,
+          "mae": 0.4035698036721867
         },
         "cooling_load": {
           "r2": 0.9581764567083181,
           "rmse": 1.9760268856790653,
-          "mae": 1.273843329402396
+          "mae": 1.2738433294023959
         }
       },
       "test": {
         "heating_load": {
           "r2": 0.9630304261263701,
-          "rmse": 1.8681961985845679,
-          "mae": 1.0886631889174965
+          "rmse": 1.868196198584568,
+          "mae": 1.088663188917496
         },
         "cooling_load": {
           "r2": 0.9330356742830298,
           "rmse": 2.4358709788524147,
-          "mae": 1.6678479283972758
+          "mae": 1.667847928397275
         }
       }
     },
@@ -43,15 +43,34 @@
       "validation": {
         "heating_load": {
           "r2": 0.997944994446688,
-          "rmse": 0.46940960896433076,
-          "mae": 0.31162477586208026
+          "rmse": 0.4694096089643311,
+          "mae": 0.31162477586208037
         },
         "cooling_load": {
-          "r2": 0.9547309417738973,
-          "rmse": 2.055810913887361,
+          "r2": 0.9547309417738972,
+          "rmse": 2.0558109138873615,
           "mae": 1.2771000574712579
         }
       }
+    }
+  },
+  "reliability": {
+    "split_conformal": {
+      "nominal_coverage": 0.9,
+      "calibration_split": "validation",
+      "half_width": {
+        "heating_load": 1.045951865079335,
+        "cooling_load": 3.9295467936508217
+      },
+      "test_coverage": {
+        "heating_load": 0.7413793103448276,
+        "cooling_load": 0.853448275862069
+      }
+    },
+    "nearest_neighbor_domain_guard": {
+      "training_distance_percentile": 95,
+      "distance_threshold": 0.8944271909999159,
+      "test_outside_domain_fraction": 0.034482758620689655
     }
   },
   "contains_synthetic_data": false,

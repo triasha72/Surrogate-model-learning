@@ -14,15 +14,18 @@ from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import GroupShuffleSplit
 
+from surrogate_reliability import (
+    NearestNeighborDomainGuard,
+    conformal_coverage,
+    conformal_quantiles,
+)
+
 
 def grouped_split(features: np.ndarray, seed: int):
     """Keep the four orientations of a physical design in one partition."""
     group_columns = (0, 1, 2, 3, 4, 6, 7)
     groups = np.asarray(
-        [
-            "|".join(format(value, ".12g") for value in row[list(group_columns)])
-            for row in features
-        ]
+        ["|".join(format(value, ".12g") for value in row[list(group_columns)]) for row in features]
     )
     outer = GroupShuffleSplit(n_splits=1, test_size=0.15, random_state=seed)
     train_validation, test = next(outer.split(features, groups=groups))
@@ -38,9 +41,7 @@ def metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, dict[str, f
     return {
         name: {
             "r2": float(r2_score(target[:, index], prediction[:, index])),
-            "rmse": float(
-                mean_squared_error(target[:, index], prediction[:, index]) ** 0.5
-            ),
+            "rmse": float(mean_squared_error(target[:, index], prediction[:, index]) ** 0.5),
             "mae": float(mean_absolute_error(target[:, index], prediction[:, index])),
         }
         for index, name in enumerate(names)
@@ -54,9 +55,7 @@ def sha256(path: Path) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, required=True)
-    parser.add_argument(
-        "--output", type=Path, default=Path("results/energy_efficiency_v1.json")
-    )
+    parser.add_argument("--output", type=Path, default=Path("results/energy_efficiency_v1.json"))
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
     frame = pd.read_excel(args.data)
@@ -75,19 +74,19 @@ def main() -> int:
     for name, model in candidates.items():
         model.fit(features[train], targets[train])
         results[name] = {
-            "validation": metrics(
-                targets[validation], model.predict(features[validation])
-            )
+            "validation": metrics(targets[validation], model.predict(features[validation]))
         }
     selected = max(
         results,
-        key=lambda name: np.mean(
-            [value["r2"] for value in results[name]["validation"].values()]
-        ),
+        key=lambda name: np.mean([value["r2"] for value in results[name]["validation"].values()]),
     )
-    results[selected]["test"] = metrics(
-        targets[test], candidates[selected].predict(features[test])
-    )
+    selected_model = candidates[selected]
+    validation_prediction = selected_model.predict(features[validation])
+    test_prediction = selected_model.predict(features[test])
+    results[selected]["test"] = metrics(targets[test], test_prediction)
+    interval_quantiles = conformal_quantiles(targets[validation], validation_prediction, 0.9)
+    interval_coverage = conformal_coverage(targets[test], test_prediction, interval_quantiles)
+    domain_guard = NearestNeighborDomainGuard().fit(features[train])
     payload = {
         "schema_version": "1.0",
         "dataset": "UCI Energy Efficiency",
@@ -99,6 +98,33 @@ def main() -> int:
         "rows": {"train": len(train), "validation": len(validation), "test": len(test)},
         "selected_on_validation": selected,
         "models": results,
+        "reliability": {
+            "split_conformal": {
+                "nominal_coverage": 0.9,
+                "calibration_split": "validation",
+                "half_width": dict(
+                    zip(
+                        ("heating_load", "cooling_load"),
+                        interval_quantiles.tolist(),
+                        strict=True,
+                    )
+                ),
+                "test_coverage": dict(
+                    zip(
+                        ("heating_load", "cooling_load"),
+                        interval_coverage.tolist(),
+                        strict=True,
+                    )
+                ),
+            },
+            "nearest_neighbor_domain_guard": {
+                "training_distance_percentile": 95,
+                "distance_threshold": domain_guard.threshold,
+                "test_outside_domain_fraction": float(
+                    np.mean(domain_guard.outside_domain(features[test]))
+                ),
+            },
+        },
         "contains_synthetic_data": False,
         "limitations": [
             "Small controlled building experiment with 768 rows.",

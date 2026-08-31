@@ -36,6 +36,14 @@ python scripts/train_energy_efficiency_real_data.py \
   --data data/external/ENB2012_data.xlsx
 ```
 
+The reusable `surrogate_reliability` package now adds split-conformal intervals
+and a standardized nearest-neighbor domain guard. On the grouped holdout, nominal
+90% intervals covered only `74.1%` of heating loads and `85.3%` of cooling loads;
+the honest undercoverage shows that ordinary split conformal calibration does
+not automatically survive a physical-design distribution shift. The domain
+guard flagged `3.45%` of test designs. These reliability results are preserved
+alongside accuracy instead of being replaced by a production-readiness claim.
+
 ```bash
 python scripts/train_airfoil_real_data.py \
   --data data/external/airfoil_self_noise.csv

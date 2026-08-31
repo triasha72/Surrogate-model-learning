@@ -18,7 +18,9 @@ jobs:
           python-version: "3.11"
           cache: pip
       - name: Install dependencies
-        run: python -m pip install -r requirements.txt
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install -e .
       - name: Test real-data split and robustness contracts
         run: python -m pytest -q
       - name: Execute every study from a clean kernel

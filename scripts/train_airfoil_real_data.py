@@ -48,9 +48,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument(
-        "--output", type=Path, default=Path("results/airfoil_real_data_v1.json")
-    )
+    parser.add_argument("--output", type=Path, default=Path("results/airfoil_real_data_v1.json"))
     args = parser.parse_args()
     x, y = load_data(args.data)
     train, val, test = grouped_split(x, args.seed)
@@ -90,9 +88,7 @@ def main():
     }
     selected = max(records, key=lambda n: records[n]["validation"]["r2"])
     prediction = (
-        rbf(scaler.transform(x[test]))
-        if selected == "rbf"
-        else fitted[selected].predict(x[test])
+        rbf(scaler.transform(x[test])) if selected == "rbf" else fitted[selected].predict(x[test])
     )
     records[selected]["test"] = metrics(y[test], prediction)
     payload = {

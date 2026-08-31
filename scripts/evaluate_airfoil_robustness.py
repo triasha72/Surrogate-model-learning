@@ -45,8 +45,7 @@ def make_model(seed: int):
     return make_pipeline(
         StandardScaler(),
         GaussianProcessRegressor(
-            kernel=ConstantKernel(1.0) * Matern(length_scale=np.ones(5), nu=1.5)
-            + WhiteKernel(0.1),
+            kernel=ConstantKernel(1.0) * Matern(length_scale=np.ones(5), nu=1.5) + WhiteKernel(0.1),
             normalize_y=True,
             n_restarts_optimizer=0,
             random_state=seed,
@@ -72,9 +71,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--seeds", type=int, default=10)
-    parser.add_argument(
-        "--output", type=Path, default=Path("results/airfoil_robustness_v1.json")
-    )
+    parser.add_argument("--output", type=Path, default=Path("results/airfoil_robustness_v1.json"))
     args = parser.parse_args()
     features, targets = load_data(args.data)
     runs = []
@@ -82,20 +79,18 @@ def main() -> int:
         train, _validation, test = grouped_split(features, seed)
         model = make_model(seed)
         model.fit(features[train], targets[train])
-        runs.append(
-            {"seed": seed, **metrics(targets[test], model.predict(features[test]))}
-        )
+        runs.append({"seed": seed, **metrics(targets[test], model.predict(features[test]))})
     payload = {
         "schema_version": "1.0",
         "dataset": "UCI Airfoil Self-Noise",
         "split_policy": "10 repeated aircraft-condition-grouped holdouts",
         "runs": runs,
         "summary": {
-            name: interval([run[name] for run in runs])
-            for name in ("r2", "rmse_db", "mae_db")
+            name: interval([run[name] for run in runs]) for name in ("r2", "rmse_db", "mae_db")
         },
         "limitations": [
-            "The empirical interval summarizes split sensitivity; it is not a population confidence interval.",
+            "The empirical interval summarizes split sensitivity; "
+            "it is not a population confidence interval.",
             "The model family and preprocessing are fixed before these repeated evaluations.",
         ],
     }

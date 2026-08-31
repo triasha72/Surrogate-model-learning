@@ -15,10 +15,7 @@ def test_grouped_split_has_no_experimental_condition_leakage():
     train, validation, test = grouped_split(features, seed=42)
 
     def groups(indices):
-        return {
-            (features[index, 1], features[index, 2], features[index, 3])
-            for index in indices
-        }
+        return {(features[index, 1], features[index, 2], features[index, 3]) for index in indices}
 
     assert groups(train).isdisjoint(groups(validation))
     assert groups(train).isdisjoint(groups(test))
