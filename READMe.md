@@ -4,8 +4,42 @@
 
 [![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
 
-Learning surrogate modeling from scratch — starting with
-the basics and working toward real engineering applications.
+This repository follows my progression from textbook surrogate models to
+experiments on measured engineering data. The problem is straightforward: when
+an experiment or simulation is expensive, can a cheaper model approximate it,
+and can that model tell us when it has moved beyond what it learned?
+
+The main results now come from two public UCI datasets: Airfoil Self-Noise and
+Energy Efficiency. The Branin, Rosenbrock, and analytical beam examples remain
+learning exercises, and their near-perfect scores are not presented as
+real-world evidence.
+
+I use grouped splits so related physical configurations do not leak across the
+train and test sets. I also report variation across seeds, interval coverage,
+and distance from the training domain. These checks revealed a useful failure:
+the nominal 90% uncertainty intervals did not achieve 90% coverage after the
+physical-design distribution shifted.
+
+## Project story
+
+**Situation.** Analytic benchmark functions make surrogate modeling easy to
+learn, but their smooth surfaces and random splits can give a misleading picture
+of performance on measured engineering data.
+
+**Task.** I wanted to test the same ideas on real experiments, prevent related
+physical configurations from leaking across splits, and measure whether the
+uncertainty estimates remained honest after a shift.
+
+**Action.** I compared polynomial ridge, Gaussian-process, radial-basis, and tree
+models on public UCI Airfoil Self-Noise and Energy Efficiency data. Splits are
+grouped by operating condition or building design. I added a ten-seed robustness
+study, split-conformal intervals, and a nearest-neighbor guard for extrapolation.
+
+**Result.** The airfoil Gaussian process reached held-out R² `0.8145`; its
+ten-seed mean was `0.8662` with standard deviation `0.0680`. On buildings, Extra
+Trees reached R² `0.9630` for heating and `0.9330` for cooling. The nominal 90%
+intervals covered only `74.1%` and `85.3%`, exposing the next reliability gap
+instead of hiding it behind the strong point-prediction scores.
 
 ## Real measured-data benchmark
 
