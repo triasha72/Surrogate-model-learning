@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "dataset": "UCI Airfoil Self-Noise",
+  "split_policy": "10 repeated aircraft-condition-grouped holdouts",
+  "runs": [
+    {
+      "seed": 0,
+      "r2": 0.9093600033770857,
+      "rmse_db": 1.940785375925933,
+      "mae_db": 1.388613676248673
+    },
+    {
+      "seed": 1,
+      "r2": 0.9204497749613163,
+      "rmse_db": 1.8798182024022219,
+      "mae_db": 1.2921096286865756
+    },
+    {
+      "seed": 2,
+      "r2": 0.8530222385844896,
+      "rmse_db": 2.625505269266304,
+      "mae_db": 1.6480156283361471
+    },
+    {
+      "seed": 3,
+      "r2": 0.8746919172171626,
+      "rmse_db": 2.6331332279002626,
+      "mae_db": 1.787111043382053
+    },
+    {
+      "seed": 4,
+      "r2": 0.9464438909919531,
+      "rmse_db": 1.617131899171532,
+      "mae_db": 1.1814410226484682
+    },
+    {
+      "seed": 5,
+      "r2": 0.9090448228714185,
+      "rmse_db": 2.129089175674033,
+      "mae_db": 1.3744090997705896
+    },
+    {
+      "seed": 6,
+      "r2": 0.8475247743168909,
+      "rmse_db": 2.6960807590811684,
+      "mae_db": 1.6989781888486502
+    },
+    {
+      "seed": 7,
+      "r2": 0.7176045229617394,
+      "rmse_db": 3.522299368545516,
+      "mae_db": 2.279320961895719
+    },
+    {
+      "seed": 8,
+      "r2": 0.8904234692564834,
+      "rmse_db": 2.2969674083339653,
+      "mae_db": 1.448168264461702
+    },
+    {
+      "seed": 9,
+      "r2": 0.7933428992520151,
+      "rmse_db": 3.477372010201732,
+      "mae_db": 2.389871275244279
+    }
+  ],
+  "summary": {
+    "r2": {
+      "mean": 0.8661908313790555,
+      "standard_deviation": 0.06802831397403705,
+      "empirical_95_percent_interval": [
+        0.7346456576270514,
+        0.9405952148850598
+      ],
+      "minimum": 0.7176045229617394,
+      "maximum": 0.9464438909919531
+    },
+    "rmse_db": {
+      "mean": 2.4818182696502666,
+      "standard_deviation": 0.643304800690846,
+      "empirical_95_percent_interval": [
+        1.6762363173984371,
+        3.512190712918165
+      ],
+      "minimum": 1.617131899171532,
+      "maximum": 3.522299368545516
+    },
+    "mae_db": {
+      "mean": 1.6488038789522856,
+      "standard_deviation": 0.40787859659297804,
+      "empirical_95_percent_interval": [
+        1.2063414590070423,
+        2.3649974547408528
+      ],
+      "minimum": 1.1814410226484682,
+      "maximum": 2.389871275244279
+    }
+  },
+  "limitations": [
+    "The empirical interval summarizes split sensitivity; it is not a population confidence interval.",
+    "The model family and preprocessing are fixed before these repeated evaluations."
+  ]
+}

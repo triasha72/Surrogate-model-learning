@@ -32,6 +32,12 @@ achieved held-out test `R² = 0.8145`, RMSE `2.8115 dB`, and MAE `1.9079 dB` on
 217 measurements. These results are materially lower than the near-perfect
 analytic-function scores and are the repository's more credible evidence.
 
+A 10-seed grouped robustness study produced mean R² `0.8662` with standard
+deviation `0.0680` and an empirical 95% split-sensitivity interval from `0.7346`
+to `0.9406`. Mean RMSE was `2.4818 dB`. This wide range is reported explicitly:
+performance depends materially on which experimental operating conditions are
+held out. The full per-seed record is in `results/airfoil_robustness_v1.json`.
+
 The idea behind all of this: engineering and environmental
 simulations are expensive. A single CFD run or 3D hydrodynamic
 flood scenario can take hours to days at operational scale.
