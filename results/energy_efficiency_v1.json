@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "dataset": "UCI Energy Efficiency",
+  "dataset_doi": "10.24432/C51307",
+  "dataset_license": "CC BY 4.0",
+  "source_sha256": "0089fcffc1415e41e2ff63730cca5280efe54fc43d722dfde1b0aaa808e35dc4",
+  "seed": 42,
+  "split_policy": "grouped by physical design; orientations cannot cross splits",
+  "rows": {
+    "train": 536,
+    "validation": 116,
+    "test": 116
+  },
+  "selected_on_validation": "random_forest",
+  "models": {
+    "random_forest": {
+      "validation": {
+        "heating_load": {
+          "r2": 0.9958403687746591,
+          "rmse": 0.6678407120566563,
+          "mae": 0.4035698036721871
+        },
+        "cooling_load": {
+          "r2": 0.9581764567083181,
+          "rmse": 1.9760268856790653,
+          "mae": 1.273843329402396
+        }
+      },
+      "test": {
+        "heating_load": {
+          "r2": 0.9630304261263701,
+          "rmse": 1.8681961985845679,
+          "mae": 1.0886631889174965
+        },
+        "cooling_load": {
+          "r2": 0.9330356742830298,
+          "rmse": 2.4358709788524147,
+          "mae": 1.6678479283972758
+        }
+      }
+    },
+    "extra_trees": {
+      "validation": {
+        "heating_load": {
+          "r2": 0.997944994446688,
+          "rmse": 0.46940960896433076,
+          "mae": 0.31162477586208026
+        },
+        "cooling_load": {
+          "r2": 0.9547309417738973,
+          "rmse": 2.055810913887361,
+          "mae": 1.2771000574712579
+        }
+      }
+    }
+  },
+  "contains_synthetic_data": false,
+  "limitations": [
+    "Small controlled building experiment with 768 rows.",
+    "External validity to occupied buildings and other climates is unmeasured."
+  ]
+}

@@ -19,6 +19,23 @@ velocity so one experimental condition cannot leak across partitions.
 The Branin, Rosenbrock, and analytical beam notebooks remain teaching
 demonstrations; their metrics are not presented as real-world model evidence.
 
+A second external-validation track uses the CC BY 4.0 UCI Energy Efficiency
+dataset (DOI `10.24432/C51307`). It predicts measured heating and cooling loads
+for 768 building configurations. All orientations of a physical design remain
+in one partition, preventing design variants from leaking across train and
+test. The selected model and held-out results are tracked in
+`results/energy_efficiency_v1.json`; this provides a separate application
+domain, not evidence that either surrogate generalizes universally.
+
+Extra Trees was selected on validation data. On the 116-row grouped holdout it
+reached heating-load R² `0.9630` (RMSE `1.8682`) and cooling-load R² `0.9330`
+(RMSE `2.4359`). Reproduce from the official `ENB2012_data.xlsx` download with:
+
+```bash
+python scripts/train_energy_efficiency_real_data.py \
+  --data data/external/ENB2012_data.xlsx
+```
+
 ```bash
 python scripts/train_airfoil_real_data.py \
   --data data/external/airfoil_self_noise.csv
