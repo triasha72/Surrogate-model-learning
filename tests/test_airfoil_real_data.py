@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import numpy as np
 
 from scripts.train_airfoil_real_data import grouped_split
@@ -20,3 +23,14 @@ def test_grouped_split_has_no_experimental_condition_leakage():
     assert groups(train).isdisjoint(groups(validation))
     assert groups(train).isdisjoint(groups(test))
     assert groups(validation).isdisjoint(groups(test))
+
+
+def test_published_real_result_preserves_grouped_holdout_contract():
+    artifact = json.loads(
+        (Path(__file__).parents[1] / "results/airfoil_real_data_v1.json").read_text()
+    )
+    assert artifact["dataset"] == "UCI Airfoil Self-Noise"
+    assert artifact["contains_synthetic_data"] is False
+    assert artifact["rows"] == {"train": 1068, "validation": 218, "test": 217}
+    assert artifact["selected_on_validation"] == "gaussian_process"
+    assert artifact["models"]["gaussian_process"]["test"]["r2"] > 0.8
