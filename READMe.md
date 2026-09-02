@@ -78,6 +78,14 @@ not automatically survive a physical-design distribution shift. The domain
 guard flagged `3.45%` of test designs. These reliability results are preserved
 alongside accuracy instead of being replaced by a production-readiness claim.
 
+A normalized conformal diagnostic now scales each interval by disagreement
+across the Extra Trees members. On the same holdout, coverage rose to `87.93%`
+for heating and `87.07%` for cooling, with mean half-widths of `2.56` and
+`3.17`. It still missed the 90% target. Because the original test result
+motivated this method, `results/energy_efficiency_v2.json` labels it as a
+retrospective diagnostic; a different untouched dataset is required before
+calling the improvement confirmed.
+
 ```bash
 python scripts/train_airfoil_real_data.py \
   --data data/external/airfoil_self_noise.csv

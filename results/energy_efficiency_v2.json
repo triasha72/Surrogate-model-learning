@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "dataset": "UCI Energy Efficiency",
+  "dataset_doi": "10.24432/C51307",
+  "dataset_license": "CC BY 4.0",
+  "source_sha256": "0089fcffc1415e41e2ff63730cca5280efe54fc43d722dfde1b0aaa808e35dc4",
+  "seed": 42,
+  "split_policy": "grouped by physical design; orientations cannot cross splits",
+  "rows": {
+    "train": 536,
+    "validation": 116,
+    "test": 116
+  },
+  "selected_on_validation": "random_forest",
+  "models": {
+    "random_forest": {
+      "validation": {
+        "heating_load": {
+          "r2": 0.9958403687746591,
+          "rmse": 0.6678407120566567,
+          "mae": 0.4035698036721869
+        },
+        "cooling_load": {
+          "r2": 0.958176456708318,
+          "rmse": 1.9760268856790664,
+          "mae": 1.2738433294023965
+        }
+      },
+      "test": {
+        "heating_load": {
+          "r2": 0.9630304261263701,
+          "rmse": 1.8681961985845685,
+          "mae": 1.0886631889174962
+        },
+        "cooling_load": {
+          "r2": 0.9330356742830299,
+          "rmse": 2.435870978852414,
+          "mae": 1.667847928397275
+        }
+      }
+    },
+    "extra_trees": {
+      "validation": {
+        "heating_load": {
+          "r2": 0.997944994446688,
+          "rmse": 0.4694096089643308,
+          "mae": 0.3116247758620799
+        },
+        "cooling_load": {
+          "r2": 0.9547309417738972,
+          "rmse": 2.0558109138873615,
+          "mae": 1.2771000574712579
+        }
+      }
+    }
+  },
+  "reliability": {
+    "split_conformal": {
+      "nominal_coverage": 0.9,
+      "calibration_split": "validation",
+      "half_width": {
+        "heating_load": 1.045951865079335,
+        "cooling_load": 3.929546793650829
+      },
+      "test_coverage": {
+        "heating_load": 0.7413793103448276,
+        "cooling_load": 0.853448275862069
+      }
+    },
+    "normalized_conformal": {
+      "status": "retrospective diagnostic; requires a new untouched dataset for confirmation",
+      "nominal_coverage": 0.9,
+      "scale": "standard deviation across Extra Trees members",
+      "test_coverage": {
+        "heating_load": 0.8793103448275862,
+        "cooling_load": 0.8706896551724138
+      },
+      "mean_test_half_width": {
+        "heating_load": 2.5603384600040346,
+        "cooling_load": 3.1720736762447896
+      }
+    },
+    "nearest_neighbor_domain_guard": {
+      "training_distance_percentile": 95,
+      "distance_threshold": 0.8944271909999159,
+      "test_outside_domain_fraction": 0.034482758620689655
+    }
+  },
+  "contains_synthetic_data": false,
+  "limitations": [
+    "Small controlled building experiment with 768 rows.",
+    "External validity to occupied buildings and other climates is unmeasured."
+  ]
+}

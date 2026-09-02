@@ -18,6 +18,8 @@ from surrogate_reliability import (
     NearestNeighborDomainGuard,
     conformal_coverage,
     conformal_quantiles,
+    normalized_conformal_quantiles,
+    normalized_interval_half_width,
 )
 
 
@@ -50,6 +52,11 @@ def metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, dict[str, f
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def ensemble_scale(model, features: np.ndarray) -> np.ndarray:
+    predictions = np.asarray([estimator.predict(features) for estimator in model.estimators_])
+    return np.std(predictions, axis=0, ddof=1)
 
 
 def main() -> int:
@@ -86,6 +93,15 @@ def main() -> int:
     results[selected]["test"] = metrics(targets[test], test_prediction)
     interval_quantiles = conformal_quantiles(targets[validation], validation_prediction, 0.9)
     interval_coverage = conformal_coverage(targets[test], test_prediction, interval_quantiles)
+    validation_scale = ensemble_scale(selected_model, features[validation])
+    test_scale = ensemble_scale(selected_model, features[test])
+    normalized_quantiles = normalized_conformal_quantiles(
+        targets[validation], validation_prediction, validation_scale, 0.9
+    )
+    normalized_half_width = normalized_interval_half_width(test_scale, normalized_quantiles)
+    normalized_coverage = np.mean(
+        np.abs(targets[test] - test_prediction) <= normalized_half_width, axis=0
+    )
     domain_guard = NearestNeighborDomainGuard().fit(features[train])
     payload = {
         "schema_version": "1.0",
@@ -113,6 +129,27 @@ def main() -> int:
                     zip(
                         ("heating_load", "cooling_load"),
                         interval_coverage.tolist(),
+                        strict=True,
+                    )
+                ),
+            },
+            "normalized_conformal": {
+                "status": (
+                    "retrospective diagnostic; requires a new untouched dataset for confirmation"
+                ),
+                "nominal_coverage": 0.9,
+                "scale": "standard deviation across Extra Trees members",
+                "test_coverage": dict(
+                    zip(
+                        ("heating_load", "cooling_load"),
+                        normalized_coverage.tolist(),
+                        strict=True,
+                    )
+                ),
+                "mean_test_half_width": dict(
+                    zip(
+                        ("heating_load", "cooling_load"),
+                        np.mean(normalized_half_width, axis=0).tolist(),
                         strict=True,
                     )
                 ),

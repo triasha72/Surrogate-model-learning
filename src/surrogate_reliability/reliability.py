@@ -26,6 +26,39 @@ def conformal_coverage(target: np.ndarray, prediction: np.ndarray, quantiles: np
     return np.mean(covered, axis=0)
 
 
+def normalized_conformal_quantiles(
+    target: np.ndarray,
+    prediction: np.ndarray,
+    scale: np.ndarray,
+    coverage: float = 0.9,
+    minimum_scale: float = 1e-6,
+) -> np.ndarray:
+    """Calibrate residuals after normalizing by a model-derived local scale."""
+
+    target = np.asarray(target, dtype=float)
+    prediction = np.asarray(prediction, dtype=float)
+    scale = np.asarray(scale, dtype=float)
+    if target.shape != prediction.shape or target.shape != scale.shape or target.ndim != 2:
+        raise ValueError("target, prediction, and scale must share [rows, outputs] shape")
+    if not 0 < coverage < 1:
+        raise ValueError("coverage must be between zero and one")
+    if minimum_scale <= 0:
+        raise ValueError("minimum_scale must be positive")
+    score = np.abs(target - prediction) / np.maximum(scale, minimum_scale)
+    level = min(1.0, math.ceil((len(target) + 1) * coverage) / len(target))
+    return np.quantile(score, level, axis=0, method="higher")
+
+
+def normalized_interval_half_width(
+    scale: np.ndarray, quantiles: np.ndarray, minimum_scale: float = 1e-6
+) -> np.ndarray:
+    scale = np.asarray(scale, dtype=float)
+    quantiles = np.asarray(quantiles, dtype=float)
+    if scale.ndim != 2 or quantiles.shape != (scale.shape[1],):
+        raise ValueError("scale must be [rows, outputs] and quantiles must match outputs")
+    return np.maximum(scale, minimum_scale) * quantiles
+
+
 class NearestNeighborDomainGuard:
     """Flag points farther from training data than held-in training points."""
 

@@ -14,8 +14,12 @@ grouped physical-design shift.
 
 ## Next experiments
 
-- Compare local, normalized, and group-aware conformal methods. All choices will
-  be made on training and validation data, not the held-out test set.
+- [x] Add a normalized conformal diagnostic using tree-ensemble disagreement.
+  It improved both coverage values to about 88% but remains retrospective and
+  below target.
+- Compare local and group-aware conformal methods on training and validation
+  data, then confirm the selected method on a different untouched public
+  dataset.
 - Report interval width alongside coverage so a method cannot look safe merely
   by returning very wide ranges.
 - Create a deliberate operating-condition shift in a public dataset and measure

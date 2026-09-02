@@ -30,3 +30,12 @@ def test_published_energy_result_is_real_held_out_evidence():
     assert sum(artifact["rows"].values()) == 768
     selected = artifact["selected_on_validation"]
     assert set(artifact["models"][selected]["test"]) == {"heating_load", "cooling_load"}
+
+
+def test_normalized_conformal_diagnostic_preserves_its_non_claim() -> None:
+    root = Path(__file__).parents[1]
+    artifact = json.loads((root / "results/energy_efficiency_v2.json").read_text())
+    diagnostic = artifact["reliability"]["normalized_conformal"]
+    assert "retrospective" in diagnostic["status"]
+    assert set(diagnostic["test_coverage"]) == {"heating_load", "cooling_load"}
+    assert set(diagnostic["mean_test_half_width"]) == {"heating_load", "cooling_load"}
