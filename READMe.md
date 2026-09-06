@@ -86,6 +86,32 @@ motivated this method, `results/energy_efficiency_v2.json` labels it as a
 retrospective diagnostic; a different untouched dataset is required before
 calling the improvement confirmed.
 
+That confirmation has now been run once on the separately held UCI Concrete
+Compressive Strength dataset. The split keeps every age measurement for a
+concrete mixture in the same partition. The frozen Extra Trees method reached
+test R² `0.9023`. Its normalized 90% intervals covered `95.83%` of the 216 test
+rows with a mean half-width of `9.79 MPa`; ordinary conformal intervals covered
+`93.98%` with a `10.28 MPa` half-width. This supports the method on one new
+laboratory dataset, but it is not evidence for concrete already in service.
+
+The experiment also saves a reproducible inference artifact with a domain
+warning. `15.28%` of the test mixtures were outside the training-distance
+threshold, which is reported rather than silently treated as interpolation.
+The model binary is rebuilt locally because generated artifacts are not stored
+in Git:
+
+```bash
+PYTHONPATH=src python scripts/confirm_concrete_reliability.py \
+  --data data/external/concrete_compressive_strength.csv
+
+PYTHONPATH=src python scripts/predict_concrete_strength.py \
+  --model models/concrete_reliability_v1.joblib \
+  540 0 0 162 2.5 1040 676 28
+```
+
+The checked-in measurement record is
+`results/concrete_reliability_confirmation_v1.json`.
+
 ```bash
 python scripts/train_airfoil_real_data.py \
   --data data/external/airfoil_self_noise.csv

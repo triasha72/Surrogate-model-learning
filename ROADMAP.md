@@ -17,16 +17,17 @@ grouped physical-design shift.
 - [x] Add a normalized conformal diagnostic using tree-ensemble disagreement.
   It improved both coverage values to about 88% but remains retrospective and
   below target.
-- Compare local and group-aware conformal methods on training and validation
-  data, then confirm the selected method on a different untouched public
-  dataset.
-- Report interval width alongside coverage so a method cannot look safe merely
-  by returning very wide ranges.
+- [x] Confirm the frozen normalized conformal method on a different untouched
+  public dataset. On UCI Concrete, it covered 95.83% at 90% nominal coverage;
+  the checked-in report also preserves the wider-than-nominal result.
+- [x] Report interval width alongside coverage so a method cannot look safe
+  merely by returning very wide ranges.
 - Create a deliberate operating-condition shift in a public dataset and measure
   whether the nearest-neighbor domain guard detects it.
 - Produce a model card directly from the frozen experiment record, including
   data lineage, intended use, and known failure cases.
-- Package one real-data model for a small reproducible inference example.
+- [x] Package one real-data model for a small reproducible inference example,
+  including a nearest-neighbor domain warning.
 
 The analytic notebooks will stay because they explain the methods well. Their
 role is teaching; the UCI experiments are the evidence for how the methods

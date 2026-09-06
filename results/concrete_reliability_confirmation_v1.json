@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "status": "external confirmation; protocol frozen before test evaluation",
+  "dataset": "UCI Concrete Compressive Strength",
+  "dataset_doi": "10.24432/C5PK67",
+  "dataset_license": "CC BY 4.0",
+  "source_sha256": "8d4b15b6fc68cd932d745cbd663d5ceae66dd54422e99c1e4865f2936ab7e2af",
+  "seed": 2026,
+  "split_policy": "grouped by seven-component mixture; ages cannot cross splits",
+  "rows": {
+    "train": 620,
+    "calibration": 194,
+    "test": 216
+  },
+  "point_prediction": {
+    "r2": 0.9023034274062425,
+    "rmse_mpa": 5.025144231942055,
+    "mae_mpa": 3.799451743206381
+  },
+  "reliability": {
+    "nominal_coverage": 0.9,
+    "plain_conformal": {
+      "test_coverage": 0.9398148148148148,
+      "mean_half_width_mpa": 10.282081333333359
+    },
+    "normalized_conformal": {
+      "scale": "standard deviation across Extra Trees members",
+      "test_coverage": 0.9583333333333334,
+      "mean_half_width_mpa": 9.78679119042982
+    },
+    "nearest_neighbor_domain_guard": {
+      "training_distance_percentile": 95,
+      "test_outside_domain_fraction": 0.1527777777777778
+    }
+  },
+  "model_artifact": {
+    "path": "models/concrete_reliability_v1.joblib",
+    "sha256": "b6b3155d9323f84895bf2f5527d22a7433a97cb7bb9ca12602e6597b2d6688d7"
+  },
+  "contains_synthetic_data": false,
+  "limitations": [
+    "This confirms one fixed method on one public laboratory dataset.",
+    "It does not establish reliability for in-service concrete or arbitrary shifts."
+  ]
+}
