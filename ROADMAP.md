@@ -24,8 +24,8 @@ grouped physical-design shift.
   merely by returning very wide ranges.
 - Create a deliberate operating-condition shift in a public dataset and measure
   whether the nearest-neighbor domain guard detects it.
-- Produce a model card directly from the frozen experiment record, including
-  data lineage, intended use, and known failure cases.
+- [x] Produce a model card directly from the frozen experiment record, including
+  data lineage, intended use, and the observed operating-shift failure case.
 - [x] Package one real-data model for a small reproducible inference example,
   including a nearest-neighbor domain warning.
 
