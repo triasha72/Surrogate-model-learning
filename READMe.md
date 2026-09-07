@@ -115,6 +115,24 @@ PYTHONPATH=src python scripts/predict_concrete_strength.py \
 The checked-in measurement record is
 `results/concrete_reliability_confirmation_v1.json`.
 
+The next check asks whether the same frozen nearest-neighbor guard notices a
+declared operating-condition tail. The first concrete diagnostic uses the upper
+10% of curing ages (100 days or more) and reports a lower out-of-domain flag
+rate than the remaining rows: `2.63%` versus `6.88%`. That negative result is
+useful. A simple feature-tail split is not automatically a distribution shift
+that this distance guard can detect. Reproduce it with:
+
+```bash
+PYTHONPATH=src python scripts/assess_concrete_operating_shift.py \
+  --data data/external/concrete_compressive_strength.csv \
+  --model models/concrete_reliability_v1.joblib \
+  --feature Age \
+  --output results/concrete_age_tail_shift_v1.json
+```
+
+The result is a retrospective public-data diagnostic, not a prospective
+in-service reliability claim.
+
 ```bash
 python scripts/train_airfoil_real_data.py \
   --data data/external/airfoil_self_noise.csv

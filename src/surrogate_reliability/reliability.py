@@ -86,3 +86,33 @@ class NearestNeighborDomainGuard:
 
     def outside_domain(self, features: np.ndarray) -> np.ndarray:
         return self.distances(features) > self.threshold
+
+
+def summarize_operating_shift(
+    guard: NearestNeighborDomainGuard,
+    reference_features: np.ndarray,
+    shifted_features: np.ndarray,
+) -> dict[str, float | int]:
+    """Compare guard behavior between a reference and shifted operating slice.
+
+    This is a diagnostic, not a calibration procedure: it does not change the
+    threshold, fit the guard, or use outcomes from either slice.
+    """
+
+    reference = np.asarray(reference_features, dtype=float)
+    shifted = np.asarray(shifted_features, dtype=float)
+    if reference.ndim != 2 or shifted.ndim != 2 or reference.shape[1] != shifted.shape[1]:
+        raise ValueError("reference and shifted features must be aligned two-dimensional arrays")
+    if len(reference) == 0 or len(shifted) == 0:
+        raise ValueError("reference and shifted features must each contain at least one row")
+    reference_distances = guard.distances(reference)
+    shifted_distances = guard.distances(shifted)
+    return {
+        "reference_rows": len(reference),
+        "shifted_rows": len(shifted),
+        "reference_mean_distance": float(np.mean(reference_distances)),
+        "shifted_mean_distance": float(np.mean(shifted_distances)),
+        "reference_outside_domain_fraction": float(np.mean(reference_distances > guard.threshold)),
+        "shifted_outside_domain_fraction": float(np.mean(shifted_distances > guard.threshold)),
+        "guard_threshold": float(guard.threshold),
+    }
