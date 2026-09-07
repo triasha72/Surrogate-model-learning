@@ -43,6 +43,9 @@ instead of hiding it behind the strong point-prediction scores.
 
 ## Real measured-data benchmark
 
+See [the system architecture](docs/architecture.md) for the grouped-split,
+model-selection, uncertainty, and extrapolation-guard flow.
+
 The primary evidence track now uses the UCI Airfoil Self-Noise dataset: 1,503
 measurements from aerodynamic and acoustic wind-tunnel experiments (CC BY 4.0,
 DOI `10.24432/C5VW2C`). Polynomial ridge, Gaussian-process, and radial-basis
