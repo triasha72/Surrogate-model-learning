@@ -2,6 +2,8 @@
 
 [Portfolio](https://triasha72.github.io/Portfolio/)
 
+[Interview brief](docs/INTERVIEW_BRIEF.md) — the problem, evidence boundary, reproduction check, and next validation.
+
 [![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
 
 This repository follows my progression from textbook surrogate models to
