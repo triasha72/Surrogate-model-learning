@@ -2,9 +2,27 @@
 
 [Portfolio](https://triasha72.github.io/Portfolio/)
 
-[Interview brief](docs/INTERVIEW_BRIEF.md) — the problem, evidence boundary, reproduction check, and next validation.
+[Project overview](docs/PROJECT_OVERVIEW.md) — the problem, evidence boundary, reproduction check, and next validation.
 
 [![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
+
+## In brief
+
+This project tests whether engineering surrogates remain reliable when related
+physical designs are kept together at evaluation time. It reports grouped-split
+performance, split sensitivity, interval coverage, and distance-to-training
+guards instead of relying on a single random-split score.
+
+## System architecture
+
+```mermaid
+flowchart LR
+    A[Public engineering data] --> B[Grouped physical-design split]
+    B --> C[Model selection and\nmulti-seed analysis]
+    C --> D[Point predictions and\nconformal intervals]
+    D --> E[Domain-distance guard]
+    E --> F[Held-out results and\nlimitations]
+```
 
 This repository follows my progression from textbook surrogate models to
 experiments on measured engineering data. The problem is straightforward: when

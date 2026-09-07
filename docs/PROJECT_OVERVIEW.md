@@ -1,4 +1,4 @@
-# Surrogate Model Learning interview brief
+# Surrogate Model Learning project overview
 
 ## The problem
 
@@ -35,7 +35,7 @@ pytest -q
 The public dataset must be obtained separately; generated model artifacts are
 rebuilt locally rather than committed.
 
-## The next validation
+## Next validation
 
 The next useful test is a held-out simulation or laboratory campaign with a
 predeclared shift, an untouched calibration set, and a comparison against the
