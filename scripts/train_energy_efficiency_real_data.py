@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train and evaluate surrogates on measured UCI building-energy data."""
+"""Train and evaluate surrogates on UCI Ecotect building-energy simulations."""
 
 from __future__ import annotations
 

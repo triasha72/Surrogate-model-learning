@@ -25,7 +25,7 @@ flowchart LR
 ```
 
 This repository follows my progression from textbook surrogate models to
-experiments on measured engineering data. The problem is straightforward: when
+experiments on public engineering data. The problem is straightforward: when
 an experiment or simulation is expensive, can a cheaper model approximate it,
 and can that model tell us when it has moved beyond what it learned?
 
@@ -61,7 +61,7 @@ Trees reached R² `0.9630` for heating and `0.9330` for cooling. The nominal 90%
 intervals covered only `74.1%` and `85.3%`, exposing the next reliability gap
 instead of hiding it behind the strong point-prediction scores.
 
-## Real measured-data benchmark
+## Public engineering-data benchmarks
 
 See [the system architecture](docs/architecture.md) for the grouped-split,
 model-selection, uncertainty, and extrapolation-guard flow.
@@ -77,7 +77,7 @@ The Branin, Rosenbrock, and analytical beam notebooks remain teaching
 demonstrations; their metrics are not presented as real-world model evidence.
 
 A second external-validation track uses the CC BY 4.0 UCI Energy Efficiency
-dataset (DOI `10.24432/C51307`). It predicts measured heating and cooling loads
+dataset (DOI `10.24432/C51307`). It predicts Ecotect-simulated heating and cooling loads
 for 768 building configurations. All orientations of a physical design remain
 in one partition, preventing design variants from leaking across train and
 test. The selected model and held-out results are tracked in
@@ -129,6 +129,7 @@ PYTHONPATH=src python scripts/confirm_concrete_reliability.py \
 
 PYTHONPATH=src python scripts/predict_concrete_strength.py \
   --model models/concrete_reliability_v1.joblib \
+  --minimum-strength-mpa 30 --maximum-half-width-mpa 10 \
   540 0 0 162 2.5 1040 676 28
 ```
 
@@ -146,6 +147,7 @@ that this distance guard can detect. Reproduce it with:
 PYTHONPATH=src python scripts/assess_concrete_operating_shift.py \
   --data data/external/concrete_compressive_strength.csv \
   --model models/concrete_reliability_v1.joblib \
+  --minimum-strength-mpa 30 --maximum-half-width-mpa 10 \
   --feature Age \
   --output results/concrete_age_tail_shift_v1.json
 ```
@@ -294,3 +296,14 @@ versions instead of relying on variables left in an interactive session.
 | `01_gp_surrogate_branin.ipynb` | GP surrogate, 2D benchmark | R² = 0.9553 |
 | `02_beam_deflection_surrogate.ipynb` | Beam deflection, 4D engineering problem | R² = 1.0 |
 | `03_surrogate_comparison.ipynb` | RSM vs GP vs RBF comparison | GP wins under the current benchmark |
+
+## Applied regression and decision policy
+
+[Applied regression study](docs/applied-regression.md) adds OLS, log-OLS and ridge,
+validation-selected interactions, HC3 coefficient intervals, residual diagnostics,
+VIF, influence and prediction-interval coverage. This is an independent project.
+
+The concrete CLI now requires a strength threshold and maximum interval half-width.
+It requests a measurement when the interval crosses the threshold, is too wide, or
+the input is outside the training domain. These are illustrative screening policies;
+the thresholds are not validated for structural approval.
