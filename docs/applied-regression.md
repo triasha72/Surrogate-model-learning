@@ -25,3 +25,19 @@ prediction intervals require assumptions that may fail; coverage is measured,
 not guaranteed. Coefficients describe associations, not causal building effects.
 X2 surface area is omitted because it is algebraically redundant with wall/roof area.
 QR filtering handles remaining exact aliases using training rows only.
+
+## Frozen concrete evaluation on a new source
+
+`python scripts/evaluate_external_concrete.py --help` describes the batch evaluator.
+Supply a trusted artifact, its previously recorded SHA-256, a CSV with the artifact's
+feature names and target plus `sample_id` and `batch_id`, a source description, and
+prespecified strength/interval-width thresholds. Record units as mixture components
+in kg/m³, age in days and strength in MPa; audit conversions before evaluation.
+The runner verifies the artifact hash and performs no fitting or recalibration.
+It writes row predictions, errors, coverage, decision metrics and batch-bootstrap
+intervals to a new output file. Fewer than two batches yields no interval.
+
+Source independence cannot be inferred from a filename or unique IDs. Audit against
+training/calibration sources before labeling the result external confirmation. A
+passing unit test is not independent laboratory evidence. This change includes no
+new external measurements.
