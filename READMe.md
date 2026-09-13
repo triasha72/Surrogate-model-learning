@@ -307,3 +307,9 @@ The concrete CLI now requires a strength threshold and maximum interval half-wid
 It requests a measurement when the interval crosses the threshold, is too wide, or
 the input is outside the training domain. These are illustrative screening policies;
 the thresholds are not validated for structural approval.
+
+## Where this stands
+
+The robustness report now records the data hash and every seed used. I still
+need an external validation set and calibrated uncertainty before using the
+results outside this study.
