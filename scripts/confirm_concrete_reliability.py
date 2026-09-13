@@ -61,7 +61,14 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=2026)
     args = parser.parse_args()
 
-    frame = pd.read_csv(args.data)
+    if args.data.suffix.lower() in {".xls", ".xlsx"}:
+        frame = pd.read_excel(args.data)
+        if not set(FEATURES).issubset(frame.columns):
+            if len(frame.columns) != len(FEATURES) + 1:
+                raise ValueError("concrete workbook must contain eight features and one target")
+            frame.columns = list(FEATURES) + [TARGET]
+    else:
+        frame = pd.read_csv(args.data)
     features = frame[list(FEATURES)].to_numpy(dtype=float)
     target = frame[TARGET].to_numpy(dtype=float).reshape(-1, 1)
     train, calibration, test = mixture_grouped_split(features, args.seed)
