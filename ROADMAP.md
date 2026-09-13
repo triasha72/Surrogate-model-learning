@@ -22,8 +22,10 @@ grouped physical-design shift.
   the checked-in report also preserves the wider-than-nominal result.
 - [x] Report interval width alongside coverage so a method cannot look safe
   merely by returning very wide ranges.
-- Create a deliberate operating-condition shift in a public dataset and measure
-  whether the nearest-neighbor domain guard detects it.
+- [x] Create a declared operating-condition tail in the UCI Concrete dataset
+  and measure the frozen nearest-neighbor guard. The upper 10% of curing ages
+  had a lower out-of-domain flag rate (2.63%) than the remaining rows (6.88%),
+  so this feature tail did not behave like a shift the guard could detect.
 - [x] Produce a model card directly from the frozen experiment record, including
   data lineage, intended use, and the observed operating-shift failure case.
 - [x] Package one real-data model for a small reproducible inference example,
