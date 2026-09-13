@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -73,6 +74,10 @@ def main() -> int:
     parser.add_argument("--seeds", type=int, default=10)
     parser.add_argument("--output", type=Path, default=Path("results/airfoil_robustness_v1.json"))
     args = parser.parse_args()
+    if args.seeds < 2:
+        parser.error("--seeds must be at least 2 for a repeated-split robustness report")
+    if not args.data.is_file():
+        parser.error(f"data file does not exist: {args.data}")
     features, targets = load_data(args.data)
     runs = []
     for seed in range(args.seeds):
@@ -83,6 +88,8 @@ def main() -> int:
     payload = {
         "schema_version": "1.0",
         "dataset": "UCI Airfoil Self-Noise",
+        "dataset_sha256": hashlib.sha256(args.data.read_bytes()).hexdigest(),
+        "seed_policy": {"count": args.seeds, "values": list(range(args.seeds))},
         "split_policy": "10 repeated aircraft-condition-grouped holdouts",
         "runs": runs,
         "summary": {
