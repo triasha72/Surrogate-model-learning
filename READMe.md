@@ -6,7 +6,7 @@
 
 [![Reproduce notebooks](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml/badge.svg)](https://github.com/triasha72/Surrogate-model-learning/actions/workflows/notebooks.yml)
 
-## In brief
+## Overview
 
 This project tests whether engineering surrogates remain reliable when related
 physical designs are kept together at evaluation time. It reports grouped-split
@@ -40,7 +40,7 @@ and distance from the training domain. These checks revealed a useful failure:
 the nominal 90% uncertainty intervals did not achieve 90% coverage after the
 physical-design distribution shifted.
 
-## Project story
+## Background
 
 **Situation.** Analytic benchmark functions make surrogate modeling easy to
 learn, but their smooth surfaces and random splits can give a misleading picture
